@@ -26,8 +26,13 @@
 
 ## 3.1) Force canonical domain (301)
 
-- This repo includes a `_redirects` file with:
-  - `https://www.fulcror.com/* https://fulcror.com/:splat 301`
+- Use Cloudflare Dashboard (host-level redirect):
+  1. Go to **Rules** → **Redirect Rules** → **Create rule**.
+  2. If incoming requests match:
+     - **Hostname** equals `www.fulcror.com`
+  3. Then dynamic redirect to:
+     - `https://fulcror.com/${1}` (or preserve path/query with the UI variables)
+  4. Status code: **301 (Permanent Redirect)**.
 - Result: any `www` URL permanently redirects to apex.
 
 ## 4) Core Web Vitals quick checks before going live
