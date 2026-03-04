@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fulcror — Growth Friction Diagnostic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f0e8;
+      --paper-dark: #ede7d5;
+      --accent: #c8622a;
+      --accent-light: #e8896a;
+      --accent-pale: #f5e6dc;
+      --muted: #7a7060;
+      --line: #d4cbb8;
+      --white: #fdfaf5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200, 98, 42, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200, 98, 42, 0.07) 0%, transparent 50%);
+    }
+
+    nav {
+      position: relative;
+      z-index: 10;
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.8rem;
+      border-radius: 2px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 4rem;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .hero-cta-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
+
+    .hero-cta:hover .hero-cta-arrow {
+      transform: translateX(4px);
+    }
+
+    .hero-footer {
+      position: relative;
+      z-index: 10;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 3rem;
+      background: var(--line);
+    }
+
+    /* ─── INTRO STRIP ─── */
+    .intro-strip {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .intro-strip h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    .intro-strip h2 em {
+      font-style: italic;
+      color: var(--accent-light);
+    }
+
+    .intro-strip p {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, 0.7);
+    }
+
+    .intro-strip p + p {
+      margin-top: 1rem;
+    }
+
+    /* ─── FORM SECTION ─── */
+    .form-section {
+      padding: 6rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .form-header {
+      margin-bottom: 4rem;
+    }
+
+    .form-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-header p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* Progress */
+    .progress-bar-wrap {
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      height: 2px;
+      background: var(--line);
+      position: relative;
+    }
+
+    .progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Question blocks */
+    .question-block {
+      display: none;
+      animation: fadeSlideIn 0.35s ease forwards;
+    }
+
+    .question-block.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .q-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      background: var(--white);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.5;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-pale);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: var(--accent-pale);
+    }
+
+    .option-btn.selected::after {
+      content: '✓';
+      position: absolute;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .option-letter {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected .option-letter {
+      color: var(--accent);
+    }
+
+    /* Nav buttons */
+    .form-nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-next {
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 0.9rem 2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-next:hover:not(:disabled) {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 0.9rem 1.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-back:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    /* ─── RESULTS / CTA ─── */
+    .results-block {
+      display: none;
+      animation: fadeSlideIn 0.4s ease forwards;
+    }
+
+    .results-block.active {
+      display: block;
+    }
+
+    .results-header {
+      margin-bottom: 3rem;
+    }
+
+    .results-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .results-header p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .friction-summary {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .friction-summary-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .friction-summary h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .friction-summary p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .cta-paths {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-card {
+      border: 1px solid var(--line);
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--white);
+      position: relative;
+    }
+
+    .cta-card.primary {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    .cta-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .cta-card.primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .cta-card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    .cta-card.primary .cta-card-tag {
+      color: var(--accent-light);
+      opacity: 1;
+    }
+
+    .cta-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .cta-card p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .cta-card.primary p {
+      color: rgba(245,240,232,0.7);
+    }
+
+    .cta-card-action {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+    }
+
+    .cta-card.primary .cta-card-action {
+      color: var(--accent-light);
+    }
+
+    /* Email form inside card */
+    .email-input-wrap {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .email-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .email-input:focus {
+      border-color: var(--accent);
+    }
+
+    .btn-email-submit {
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+
+    .btn-email-submit:hover {
+      background: var(--accent);
+    }
+
+    /* Success states */
+    .success-msg {
+      display: none;
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-light);
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .success-msg p {
+      font-size: 0.9rem;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .success-msg strong {
+      color: var(--accent);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(245,240,232,0.5);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--paper);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-logo span { color: var(--accent-light); }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav, .hero-content, .hero-footer, .form-section, .intro-strip, footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .intro-strip {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .cta-paths {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-footer {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <nav>
+      <a href="#" class="logo">Fulcr<span>o</span>r</a>
+      <span class="nav-tag">Growth Diagnostic</span>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Free Diagnostic Tool</div>
+      <h1>Your company is growing.<br><em>Something is breaking.</em></h1>
+      <p class="hero-sub">
+        Generic tools weren't built for your market. Agencies don't understand your complexity.
+        Answer 8 questions and find out exactly where your business is experiencing friction — and what to do about it.
+      </p>
+      <a href="#diagnostic" class="hero-cta">
+        Start the diagnostic
+        <span class="hero-cta-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="hero-footer">
+      <div class="hero-stat">
+        <span class="hero-stat-num">4 min</span>
+        <span class="hero-stat-label">To complete</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">8</span>
+        <span class="hero-stat-label">Questions</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">Free</span>
+        <span class="hero-stat-label">No obligation</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">EMEA</span>
+        <span class="hero-stat-label">Focused</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── INTRO STRIP ─── -->
+  <section class="intro-strip">
+    <div>
+      <h2>Built for companies<br>operating across<br><em>Francophone Africa</em><br>and Europe.</h2>
+    </div>
+    <div>
+      <p>Most lead generation tools and agencies fail in EMEA — not because of effort, but because they were built for US and UK markets. For companies operating across Morocco, Senegal, Côte d'Ivoire, or the broader Francophone region, the data is thinner, the context is different, and generic solutions produce generic results.</p>
+      <p>Fulcror builds custom growth infrastructure for ambitious companies that have outgrown off-the-shelf tools and can't find an agency that understands their market. This diagnostic is the first step.</p>
+    </div>
+  </section>
+
+  <!-- ─── FORM SECTION ─── -->
+  <section class="form-section" id="diagnostic">
+
+    <div class="form-header">
+      <div class="section-label">Diagnostic</div>
+      <h2>Where is your growth experiencing friction?</h2>
+      <p>Answer honestly. The more accurate your answers, the more specific your results. Takes about 4 minutes.</p>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-meta">
+        <span class="progress-label" id="progress-text">Question 1 of 8</span>
+        <span class="progress-label" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-block active" data-q="1">
+      <div class="q-number">Question 01 — Company Stage</div>
+      <div class="q-text">How many full-time employees does your company currently have?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="under20"><span class="option-letter">A</span>Under 20</button>
+        <button class="option-btn" data-value="20-50"><span class="option-letter">B</span>20 – 50</button>
+        <button class="option-btn" data-value="51-150"><span class="option-letter">C</span>51 – 150</button>
+        <button class="option-btn" data-value="151-300"><span class="option-letter">D</span>151 – 300</button>
+        <button class="option-btn" data-value="over300"><span class="option-letter">E</span>Over 300</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-next" id="next-1" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" data-q="2">
+      <div class="q-number">Question 02 — Revenue Trajectory</div>
+      <div class="q-text">How would you describe your revenue trajectory over the last 12 months?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="growing-fast"><span class="option-letter">A</span>Growing fast — we're struggling to keep up</button>
+        <button class="option-btn" data-value="growing-steady"><span class="option-letter">B</span>Growing steadily — but something is starting to strain</button>
+        <button class="option-btn" data-value="flat"><span class="option-letter">C</span>Flat — we've hit a plateau we can't seem to break</button>
+        <button class="option-btn" data-value="declining"><span class="option-letter">D</span>Declining — we're losing ground and need to find out why</button>
+        <button class="option-btn" data-value="early"><span class="option-letter">E</span>Too early to tell — we're still establishing ourselves</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(2)">← Back</button>
+        <button class="btn-next" id="next-2" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" data-q="3">
+      <div class="q-number">Question 03 — Friction Location</div>
+      <div class="q-text">Where does work most often slow down, pile up, or get dropped in your company?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="finding-prospects"><span class="option-letter">A</span>Finding and qualifying the right prospects</button>
+        <button class="option-btn" data-value="converting"><span class="option-letter">B</span>Converting prospects into clients</button>
+        <button class="option-btn" data-value="delivery"><span class="option-letter">C</span>Delivering our service or product consistently</button>
+        <button class="option-btn" data-value="ops"><span class="option-letter">D</span>Managing operations and internal coordination</button>
+        <button class="option-btn" data-value="reporting"><span class="option-letter">E</span>Reporting and understanding what's actually happening in the business</button>
+        <button class="option-btn" data-value="tech"><span class="option-letter">F</span>Managing technology — too many tools, manual workarounds, things not connecting</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(3)">← Back</button>
+        <button class="btn-next" id="next-3" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" data-q="4">
+      <div class="q-number">Question 04 — Scale Readiness</div>
+      <div class="q-text">If your team doubled in the next 6 months, what would break first?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="prospecting-scale"><span class="option-letter">A</span>Our ability to find and reach enough good prospects</button>
+        <button class="option-btn" data-value="sales-scale"><span class="option-letter">B</span>Our sales process — it relies too much on specific people</button>
+        <button class="option-btn" data-value="delivery-scale"><span class="option-letter">C</span>Our delivery — we'd struggle to maintain quality at scale</button>
+        <button class="option-btn" data-value="ops-scale"><span class="option-letter">D</span>Our internal operations — coordination would collapse</button>
+        <button class="option-btn" data-value="data-scale"><span class="option-letter">E</span>Our data and reporting — we'd be flying blind</button>
+        <button class="option-btn" data-value="tech-scale"><span class="option-letter">F</span>Our technology stack — it barely holds together now</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(4)">← Back</button>
+        <button class="btn-next" id="next-4" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" data-q="5">
+      <div class="q-number">Question 05 — Lead Generation</div>
+      <div class="q-text">How does your team currently manage lead generation and business development?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="manual-bd"><span class="option-letter">A</span>Manually — our BDs search and reach out individually</button>
+        <button class="option-btn" data-value="agency"><span class="option-letter">B</span>Through an agency — with mixed or poor results</button>
+        <button class="option-btn" data-value="tools"><span class="option-letter">C</span>Through a mix of tools that don't fully work for our market</button>
+        <button class="option-btn" data-value="referrals"><span class="option-letter">D</span>We rely mostly on referrals and partnerships</button>
+        <button class="option-btn" data-value="solid-system"><span class="option-letter">E</span>We have a solid system that works well</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(5)">← Back</button>
+        <button class="btn-next" id="next-5" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-block" data-q="6">
+      <div class="q-number">Question 06 — Technology</div>
+      <div class="q-text">How would you describe your current technology situation internally?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="fragmented"><span class="option-letter">A</span>We use several tools that don't talk to each other properly</button>
+        <button class="option-btn" data-value="manual-sheets"><span class="option-letter">B</span>A lot of things are still done manually in spreadsheets</button>
+        <button class="option-btn" data-value="nothing-fits"><span class="option-letter">C</span>We've tried various tools but nothing fits our specific needs</button>
+        <button class="option-btn" data-value="expensive"><span class="option-letter">D</span>Our tech works but it's expensive relative to what we get from it</button>
+        <button class="option-btn" data-value="solid-tech"><span class="option-letter">E</span>We have a solid, well-integrated setup</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(6)">← Back</button>
+        <button class="btn-next" id="next-6" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-block" data-q="7">
+      <div class="q-number">Question 07 — Previous Attempts</div>
+      <div class="q-text">Has your company tried to fix any of these issues before — with an agency, a tool, or a consultant?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="tried-failed"><span class="option-letter">A</span>Yes, and it didn't work out</button>
+        <button class="option-btn" data-value="tried-partial"><span class="option-letter">B</span>Yes, and it partially worked but didn't solve the real problem</button>
+        <button class="option-btn" data-value="not-tried"><span class="option-letter">C</span>No — we haven't tried yet</button>
+        <button class="option-btn" data-value="looking-now"><span class="option-letter">D</span>We're actively looking for a solution right now</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(7)">← Back</button>
+        <button class="btn-next" id="next-7" disabled>Continue <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-block" data-q="8">
+      <div class="q-number">Question 08 — Impact</div>
+      <div class="q-text">What would solving your biggest operational friction mean for your business?</div>
+      <div class="options-grid">
+        <button class="option-btn" data-value="grow-no-headcount"><span class="option-letter">A</span>We could grow faster without adding more headcount</button>
+        <button class="option-btn" data-value="less-key-person"><span class="option-letter">B</span>We could finally scale without everything depending on key people</button>
+        <button class="option-btn" data-value="stop-losing-deals"><span class="option-letter">C</span>We'd stop losing deals to slow or poor-quality processes</button>
+        <button class="option-btn" data-value="clarity"><span class="option-letter">D</span>We'd have clarity on what's actually working and what isn't</button>
+        <button class="option-btn" data-value="all-above"><span class="option-letter">E</span>All of the above — we need a complete rethink</button>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goBack(8)">← Back</button>
+        <button class="btn-next" id="next-8" disabled>See my results <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- ─── RESULTS ─── -->
+    <div class="results-block" id="results-block">
+      <div class="results-header">
+        <div class="section-label">Your Results</div>
+        <h2>Your diagnostic is ready.</h2>
+        <p>Based on your answers, we've identified your primary friction area and what typically drives it for companies at your stage. Choose how you'd like to proceed.</p>
+      </div>
+
+      <div class="friction-summary" id="friction-summary">
+        <div class="friction-summary-label">Primary Friction Identified</div>
+        <h3 id="friction-title">—</h3>
+        <p id="friction-desc">—</p>
+      </div>
+
+      <div class="cta-paths">
+        <!-- Primary CTA -->
+        <div class="cta-card primary">
+          <div class="cta-card-tag">Recommended</div>
+          <h3>Review it together on a free 20-minute call</h3>
+          <p>I'll walk through your results personally and tell you exactly what I'd do in your situation — no pitch, no obligation.</p>
+          <div class="cta-card-action">Book a call →</div>
+          <!-- Replace href with your actual Calendly or booking link -->
+          <a href="https://calendly.com" target="_blank" style="position:absolute;inset:0;z-index:2;" aria-label="Book a call"></a>
+        </div>
+
+        <!-- Secondary CTA -->
+        <div class="cta-card" id="email-card">
+          <div class="cta-card-tag">Review at your own pace</div>
+          <h3>Send the results to my email first</h3>
+          <p>Receive a written summary of your friction diagnosis. I'll follow up once in 3 days if you'd like to discuss.</p>
+          <div class="email-input-wrap">
+            <input type="email" class="email-input" id="email-input" placeholder="your@email.com" />
+            <button class="btn-email-submit" onclick="submitEmail()">Send my results →</button>
+          </div>
+          <div class="success-msg" id="email-success">
+            <p>✓ <strong>Results sent.</strong> Check your inbox. I'll follow up in 3 days — no pressure, just a conversation if you want one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">Fulcr<span>o</span>r</div>
+    <p>Custom growth infrastructure for EMEA companies — Francophone Africa & Europe</p>
+  </footer>
+
+  <script>
+    const answers = {};
+    let currentQ = 1;
+    const totalQ = 8;
+
+    // Option selection
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const block = this.closest('.question-block');
+        const qNum = block.dataset.q;
+        block.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        answers[qNum] = this.dataset.value;
+        document.getElementById('next-' + qNum).disabled = false;
+      });
+    });
+
+    // Next buttons
+    for (let i = 1; i <= totalQ; i++) {
+      document.getElementById('next-' + i).addEventListener('click', () => advance(i));
+    }
+
+    function advance(from) {
+      document.querySelector(`[data-q="${from}"]`).classList.remove('active');
+      if (from < totalQ) {
+        currentQ = from + 1;
+        document.querySelector(`[data-q="${currentQ}"]`).classList.add('active');
+        updateProgress(currentQ);
+      } else {
+        showResults();
+      }
+    }
+
+    function goBack(current) {
+      document.querySelector(`[data-q="${current}"]`).classList.remove('active');
+      currentQ = current - 1;
+      document.querySelector(`[data-q="${currentQ}"]`).classList.add('active');
+      updateProgress(currentQ);
+    }
+
+    function updateProgress(q) {
+      const pct = Math.round(((q - 1) / totalQ) * 100);
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = `Question ${q} of ${totalQ}`;
+      document.getElementById('progress-pct').textContent = pct + '%';
+    }
+
+    function showResults() {
+      document.querySelector(`[data-q="8"]`).classList.remove('active');
+      document.getElementById('progress-fill').style.width = '100%';
+      document.getElementById('progress-text').textContent = 'Diagnostic complete';
+      document.getElementById('progress-pct').textContent = '100%';
+
+      // Derive friction summary from answers
+      const friction = deriveFriction();
+      document.getElementById('friction-title').textContent = friction.title;
+      document.getElementById('friction-desc').textContent = friction.desc;
+
+      document.getElementById('results-block').classList.add('active');
+      document.getElementById('results-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function deriveFriction() {
+      const q3 = answers['3'];
+      const q4 = answers['4'];
+      const q5 = answers['5'];
+      const q6 = answers['6'];
+
+      // Lead gen friction
+      if (['finding-prospects','converting','prospecting-scale','sales-scale'].includes(q3) ||
+          ['finding-prospects','converting','prospecting-scale','sales-scale'].includes(q4) ||
+          ['manual-bd','agency','tools','referrals'].includes(q5)) {
+        return {
+          title: 'Lead Generation & Sales Pipeline',
+          desc: 'Your primary friction is at the top of the funnel. You\'re likely relying on manual processes, referrals, or tools that weren\'t designed for your specific markets — leading to inconsistent pipeline quality and slow conversion cycles. This is solvable with a custom signal-based prospecting system built for your geography.'
+        };
+      }
+
+      // Tech fragmentation
+      if (['tech','tech-scale'].includes(q3) || ['tech','tech-scale'].includes(q4) ||
+          ['fragmented','manual-sheets','nothing-fits'].includes(q6)) {
+        return {
+          title: 'Technology Fragmentation & Manual Overhead',
+          desc: 'Your team is spending significant time managing tools that don\'t work together — manual data entry, patching between systems, and decisions made on incomplete information. This overhead compounds as you grow. A custom integration layer built for your specific workflow can eliminate this friction entirely.'
+        };
+      }
+
+      // Ops / scaling
+      if (['ops','ops-scale','delivery','delivery-scale'].includes(q3) ||
+          ['ops','ops-scale','delivery','delivery-scale'].includes(q4)) {
+        return {
+          title: 'Operational Scalability',
+          desc: 'Your delivery or coordination systems were built for a smaller company and are straining under current growth pressure. Key processes depend on specific individuals rather than documented systems. Scaling further without addressing this creates compounding risk to both quality and team capacity.'
+        };
+      }
+
+      // Reporting / data
+      if (['reporting','data-scale'].includes(q3) || ['reporting','data-scale'].includes(q4)) {
+        return {
+          title: 'Data Visibility & Decision Making',
+          desc: 'You\'re growing, but you\'re making decisions without a clear picture of what\'s actually working. Reporting is manual, slow, or siloed across tools. A custom reporting layer that consolidates your key signals into one view typically changes how fast and how confidently leadership can act.'
+        };
+      }
+
+      // Default
+      return {
+        title: 'Multi-System Growth Friction',
+        desc: 'Your friction spans multiple areas — which is common at your stage. The priority is identifying which single bottleneck, if fixed, would unlock the most downstream momentum. A diagnostic call is the fastest way to determine that specific leverage point for your situation.'
+      };
+    }
+
+    function submitEmail() {
+      const email = document.getElementById('email-input').value;
+      if (!email || !email.includes('@')) {
+        document.getElementById('email-input').style.borderColor = 'var(--accent)';
+        return;
+      }
+      // In production: POST to your backend with email + answers
+      console.log('Email submitted:', email, 'Answers:', answers);
+      document.getElementById('email-input').style.display = 'none';
+      document.querySelector('.btn-email-submit').style.display = 'none';
+      document.getElementById('email-success').style.display = 'block';
+    }
+
+    // Init progress
+    updateProgress(1);
+  </script>
+</body>
+</html>
