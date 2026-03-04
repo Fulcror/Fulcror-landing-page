@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fulcror Growth Friction Diagnostic — answer 8 questions in 4 minutes to identify where your company is facing operational friction and what to do next." />
+  <meta name="theme-color" content="#f5f0e8" />
+  <meta http-equiv="x-dns-prefetch-control" content="on" />
   <title>Fulcror — Growth Friction Diagnostic</title>
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -30,6 +35,8 @@
       color: var(--ink);
       min-height: 100vh;
       overflow-x: hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Grain overlay */
@@ -64,7 +71,7 @@
     nav {
       position: relative;
       z-index: 10;
-      padding: 2rem 4rem;
+      padding: 2rem max(1.5rem, calc((100vw - 1200px) / 2));
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -102,8 +109,9 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 6rem 4rem 4rem;
-      max-width: 900px;
+      width: min(100%, 900px);
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
     }
 
     .hero-eyebrow {
@@ -184,11 +192,12 @@
     .hero-footer {
       position: relative;
       z-index: 10;
-      padding: 2rem 4rem;
+      padding: 2rem max(1.5rem, calc((100vw - 1200px) / 2));
       border-top: 1px solid var(--line);
       display: flex;
       gap: 3rem;
       align-items: center;
+      justify-content: center;
     }
 
     .hero-stat {
@@ -222,11 +231,13 @@
     .intro-strip {
       background: var(--ink);
       color: var(--paper);
-      padding: 5rem 4rem;
+      padding: 5rem max(1.5rem, calc((100vw - 1200px) / 2));
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
       align-items: center;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 500px;
     }
 
     .intro-strip h2 {
@@ -257,6 +268,8 @@
       padding: 6rem 4rem;
       max-width: 800px;
       margin: 0 auto;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 1600px;
     }
 
     .section-label {
@@ -678,11 +691,13 @@
     footer {
       background: var(--ink);
       color: rgba(245,240,232,0.5);
-      padding: 2rem 4rem;
+      padding: 2rem max(1.5rem, calc((100vw - 1200px) / 2));
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid rgba(255,255,255,0.08);
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 120px;
     }
 
     .footer-logo {
@@ -720,6 +735,29 @@
       .hero-footer {
         gap: 1.5rem;
         flex-wrap: wrap;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1280px) {
+      .hero-footer {
+        gap: 2rem;
+      }
+
+      .hero-divider {
+        height: 2.2rem;
+      }
+
+      .hero-stat-num {
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -829,7 +867,7 @@
         <button class="option-btn" data-value="early"><span class="option-letter">E</span>Too early to tell — we're still establishing ourselves</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(2)">← Back</button>
+        <button class="btn-back" data-back="2">← Back</button>
         <button class="btn-next" id="next-2" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -847,7 +885,7 @@
         <button class="option-btn" data-value="tech"><span class="option-letter">F</span>Managing technology — too many tools, manual workarounds, things not connecting</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(3)">← Back</button>
+        <button class="btn-back" data-back="3">← Back</button>
         <button class="btn-next" id="next-3" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -865,7 +903,7 @@
         <button class="option-btn" data-value="tech-scale"><span class="option-letter">F</span>Our technology stack — it barely holds together now</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(4)">← Back</button>
+        <button class="btn-back" data-back="4">← Back</button>
         <button class="btn-next" id="next-4" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -882,7 +920,7 @@
         <button class="option-btn" data-value="solid-system"><span class="option-letter">E</span>We have a solid system that works well</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(5)">← Back</button>
+        <button class="btn-back" data-back="5">← Back</button>
         <button class="btn-next" id="next-5" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -899,7 +937,7 @@
         <button class="option-btn" data-value="solid-tech"><span class="option-letter">E</span>We have a solid, well-integrated setup</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(6)">← Back</button>
+        <button class="btn-back" data-back="6">← Back</button>
         <button class="btn-next" id="next-6" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -915,7 +953,7 @@
         <button class="option-btn" data-value="looking-now"><span class="option-letter">D</span>We're actively looking for a solution right now</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(7)">← Back</button>
+        <button class="btn-back" data-back="7">← Back</button>
         <button class="btn-next" id="next-7" disabled>Continue <span>→</span></button>
       </div>
     </div>
@@ -932,7 +970,7 @@
         <button class="option-btn" data-value="all-above"><span class="option-letter">E</span>All of the above — we need a complete rethink</button>
       </div>
       <div class="form-nav">
-        <button class="btn-back" onclick="goBack(8)">← Back</button>
+        <button class="btn-back" data-back="8">← Back</button>
         <button class="btn-next" id="next-8" disabled>See my results <span>→</span></button>
       </div>
     </div>
@@ -958,8 +996,7 @@
           <h3>Review it together on a free 20-minute call</h3>
           <p>I'll walk through your results personally and tell you exactly what I'd do in your situation — no pitch, no obligation.</p>
           <div class="cta-card-action">Book a call →</div>
-          <!-- Replace href with your actual Calendly or booking link -->
-          <a href="https://calendly.com" target="_blank" style="position:absolute;inset:0;z-index:2;" aria-label="Book a call"></a>
+          <a href="https://calendly.com/duccialessandroofficial/diagnostic-discussion" target="_blank" style="position:absolute;inset:0;z-index:2;" aria-label="Book a call"></a>
         </div>
 
         <!-- Secondary CTA -->
@@ -969,7 +1006,7 @@
           <p>Receive a written summary of your friction diagnosis. I'll follow up once in 3 days if you'd like to discuss.</p>
           <div class="email-input-wrap">
             <input type="email" class="email-input" id="email-input" placeholder="your@email.com" />
-            <button class="btn-email-submit" onclick="submitEmail()">Send my results →</button>
+            <button class="btn-email-submit" data-email-submit="true">Send my results →</button>
           </div>
           <div class="success-msg" id="email-success">
             <p>✓ <strong>Results sent.</strong> Check your inbox. I'll follow up in 3 days — no pressure, just a conversation if you want one.</p>
@@ -987,131 +1024,164 @@
   </footer>
 
   <script>
-    const answers = {};
-    let currentQ = 1;
-    const totalQ = 8;
+    (() => {
+      const answers = {};
+      let currentQ = 1;
+      const totalQ = 8;
 
-    // Option selection
-    document.querySelectorAll('.option-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const block = this.closest('.question-block');
-        const qNum = block.dataset.q;
-        block.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-        this.classList.add('selected');
-        answers[qNum] = this.dataset.value;
-        document.getElementById('next-' + qNum).disabled = false;
-      });
-    });
+      const progressFill = document.getElementById('progress-fill');
+      const progressText = document.getElementById('progress-text');
+      const progressPct = document.getElementById('progress-pct');
+      const resultsBlock = document.getElementById('results-block');
+      const frictionTitle = document.getElementById('friction-title');
+      const frictionDesc = document.getElementById('friction-desc');
+      const emailInput = document.getElementById('email-input');
+      const emailSuccess = document.getElementById('email-success');
+      const emailSubmitButton = document.querySelector('.btn-email-submit');
+      const formSection = document.querySelector('.form-section');
 
-    // Next buttons
-    for (let i = 1; i <= totalQ; i++) {
-      document.getElementById('next-' + i).addEventListener('click', () => advance(i));
-    }
+      function setActiveQuestion(questionNumber) {
+        const activeBlock = document.querySelector('.question-block.active');
+        if (activeBlock) activeBlock.classList.remove('active');
+        const nextBlock = document.querySelector(`[data-q="${questionNumber}"]`);
+        if (nextBlock) nextBlock.classList.add('active');
+      }
 
-    function advance(from) {
-      document.querySelector(`[data-q="${from}"]`).classList.remove('active');
-      if (from < totalQ) {
-        currentQ = from + 1;
-        document.querySelector(`[data-q="${currentQ}"]`).classList.add('active');
-        updateProgress(currentQ);
-      } else {
+      function advance(from) {
+        if (from < totalQ) {
+          currentQ = from + 1;
+          setActiveQuestion(currentQ);
+          updateProgress(currentQ);
+          return;
+        }
         showResults();
       }
-    }
 
-    function goBack(current) {
-      document.querySelector(`[data-q="${current}"]`).classList.remove('active');
-      currentQ = current - 1;
-      document.querySelector(`[data-q="${currentQ}"]`).classList.add('active');
-      updateProgress(currentQ);
-    }
+      function goBack(current) {
+        currentQ = current - 1;
+        setActiveQuestion(currentQ);
+        updateProgress(currentQ);
+      }
 
-    function updateProgress(q) {
-      const pct = Math.round(((q - 1) / totalQ) * 100);
-      document.getElementById('progress-fill').style.width = pct + '%';
-      document.getElementById('progress-text').textContent = `Question ${q} of ${totalQ}`;
-      document.getElementById('progress-pct').textContent = pct + '%';
-    }
+      function updateProgress(questionNumber) {
+        const pct = Math.round(((questionNumber - 1) / totalQ) * 100);
+        progressFill.style.width = `${pct}%`;
+        progressText.textContent = `Question ${questionNumber} of ${totalQ}`;
+        progressPct.textContent = `${pct}%`;
+      }
 
-    function showResults() {
-      document.querySelector(`[data-q="8"]`).classList.remove('active');
-      document.getElementById('progress-fill').style.width = '100%';
-      document.getElementById('progress-text').textContent = 'Diagnostic complete';
-      document.getElementById('progress-pct').textContent = '100%';
+      function showResults() {
+        setActiveQuestion(0);
+        progressFill.style.width = '100%';
+        progressText.textContent = 'Diagnostic complete';
+        progressPct.textContent = '100%';
 
-      // Derive friction summary from answers
-      const friction = deriveFriction();
-      document.getElementById('friction-title').textContent = friction.title;
-      document.getElementById('friction-desc').textContent = friction.desc;
+        const friction = deriveFriction();
+        frictionTitle.textContent = friction.title;
+        frictionDesc.textContent = friction.desc;
 
-      document.getElementById('results-block').classList.add('active');
-      document.getElementById('results-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        resultsBlock.classList.add('active');
+        resultsBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
 
-    function deriveFriction() {
-      const q3 = answers['3'];
-      const q4 = answers['4'];
-      const q5 = answers['5'];
-      const q6 = answers['6'];
+      function deriveFriction() {
+        const q3 = answers['3'];
+        const q4 = answers['4'];
+        const q5 = answers['5'];
+        const q6 = answers['6'];
 
-      // Lead gen friction
-      if (['finding-prospects','converting','prospecting-scale','sales-scale'].includes(q3) ||
-          ['finding-prospects','converting','prospecting-scale','sales-scale'].includes(q4) ||
-          ['manual-bd','agency','tools','referrals'].includes(q5)) {
+        if (
+          ['finding-prospects', 'converting', 'prospecting-scale', 'sales-scale'].includes(q3) ||
+          ['finding-prospects', 'converting', 'prospecting-scale', 'sales-scale'].includes(q4) ||
+          ['manual-bd', 'agency', 'tools', 'referrals'].includes(q5)
+        ) {
+          return {
+            title: 'Lead Generation & Sales Pipeline',
+            desc: 'Your primary friction is at the top of the funnel. You\'re likely relying on manual processes, referrals, or tools that weren\'t designed for your specific markets — leading to inconsistent pipeline quality and slow conversion cycles. This is solvable with a custom signal-based prospecting system built for your geography.'
+          };
+        }
+
+        if (
+          ['tech', 'tech-scale'].includes(q3) ||
+          ['tech', 'tech-scale'].includes(q4) ||
+          ['fragmented', 'manual-sheets', 'nothing-fits'].includes(q6)
+        ) {
+          return {
+            title: 'Technology Fragmentation & Manual Overhead',
+            desc: 'Your team is spending significant time managing tools that don\'t work together — manual data entry, patching between systems, and decisions made on incomplete information. This overhead compounds as you grow. A custom integration layer built for your specific workflow can eliminate this friction entirely.'
+          };
+        }
+
+        if (
+          ['ops', 'ops-scale', 'delivery', 'delivery-scale'].includes(q3) ||
+          ['ops', 'ops-scale', 'delivery', 'delivery-scale'].includes(q4)
+        ) {
+          return {
+            title: 'Operational Scalability',
+            desc: 'Your delivery or coordination systems were built for a smaller company and are straining under current growth pressure. Key processes depend on specific individuals rather than documented systems. Scaling further without addressing this creates compounding risk to both quality and team capacity.'
+          };
+        }
+
+        if (['reporting', 'data-scale'].includes(q3) || ['reporting', 'data-scale'].includes(q4)) {
+          return {
+            title: 'Data Visibility & Decision Making',
+            desc: 'You\'re growing, but you\'re making decisions without a clear picture of what\'s actually working. Reporting is manual, slow, or siloed across tools. A custom reporting layer that consolidates your key signals into one view typically changes how fast and how confidently leadership can act.'
+          };
+        }
+
         return {
-          title: 'Lead Generation & Sales Pipeline',
-          desc: 'Your primary friction is at the top of the funnel. You\'re likely relying on manual processes, referrals, or tools that weren\'t designed for your specific markets — leading to inconsistent pipeline quality and slow conversion cycles. This is solvable with a custom signal-based prospecting system built for your geography.'
+          title: 'Multi-System Growth Friction',
+          desc: 'Your friction spans multiple areas — which is common at your stage. The priority is identifying which single bottleneck, if fixed, would unlock the most downstream momentum. A diagnostic call is the fastest way to determine that specific leverage point for your situation.'
         };
       }
 
-      // Tech fragmentation
-      if (['tech','tech-scale'].includes(q3) || ['tech','tech-scale'].includes(q4) ||
-          ['fragmented','manual-sheets','nothing-fits'].includes(q6)) {
-        return {
-          title: 'Technology Fragmentation & Manual Overhead',
-          desc: 'Your team is spending significant time managing tools that don\'t work together — manual data entry, patching between systems, and decisions made on incomplete information. This overhead compounds as you grow. A custom integration layer built for your specific workflow can eliminate this friction entirely.'
-        };
+      function submitEmail() {
+        const email = emailInput.value.trim();
+        if (!email || !email.includes('@')) {
+          emailInput.style.borderColor = 'var(--accent)';
+          return;
+        }
+
+        console.log('Email submitted:', email, 'Answers:', answers);
+        emailInput.style.display = 'none';
+        emailSubmitButton.style.display = 'none';
+        emailSuccess.style.display = 'block';
       }
 
-      // Ops / scaling
-      if (['ops','ops-scale','delivery','delivery-scale'].includes(q3) ||
-          ['ops','ops-scale','delivery','delivery-scale'].includes(q4)) {
-        return {
-          title: 'Operational Scalability',
-          desc: 'Your delivery or coordination systems were built for a smaller company and are straining under current growth pressure. Key processes depend on specific individuals rather than documented systems. Scaling further without addressing this creates compounding risk to both quality and team capacity.'
-        };
-      }
+      formSection.addEventListener('click', (event) => {
+        const optionButton = event.target.closest('.option-btn');
+        if (optionButton) {
+          const block = optionButton.closest('.question-block');
+          const qNum = block.dataset.q;
+          block.querySelectorAll('.option-btn').forEach((button) => button.classList.remove('selected'));
+          optionButton.classList.add('selected');
+          answers[qNum] = optionButton.dataset.value;
+          document.getElementById(`next-${qNum}`).disabled = false;
+          return;
+        }
 
-      // Reporting / data
-      if (['reporting','data-scale'].includes(q3) || ['reporting','data-scale'].includes(q4)) {
-        return {
-          title: 'Data Visibility & Decision Making',
-          desc: 'You\'re growing, but you\'re making decisions without a clear picture of what\'s actually working. Reporting is manual, slow, or siloed across tools. A custom reporting layer that consolidates your key signals into one view typically changes how fast and how confidently leadership can act.'
-        };
-      }
+        const nextButton = event.target.closest('.btn-next');
+        if (nextButton && nextButton.id) {
+          const from = Number(nextButton.id.replace('next-', ''));
+          if (!Number.isNaN(from)) advance(from);
+          return;
+        }
 
-      // Default
-      return {
-        title: 'Multi-System Growth Friction',
-        desc: 'Your friction spans multiple areas — which is common at your stage. The priority is identifying which single bottleneck, if fixed, would unlock the most downstream momentum. A diagnostic call is the fastest way to determine that specific leverage point for your situation.'
-      };
-    }
+        const backButton = event.target.closest('.btn-back[data-back]');
+        if (backButton) {
+          const current = Number(backButton.dataset.back);
+          if (!Number.isNaN(current)) goBack(current);
+          return;
+        }
 
-    function submitEmail() {
-      const email = document.getElementById('email-input').value;
-      if (!email || !email.includes('@')) {
-        document.getElementById('email-input').style.borderColor = 'var(--accent)';
-        return;
-      }
-      // In production: POST to your backend with email + answers
-      console.log('Email submitted:', email, 'Answers:', answers);
-      document.getElementById('email-input').style.display = 'none';
-      document.querySelector('.btn-email-submit').style.display = 'none';
-      document.getElementById('email-success').style.display = 'block';
-    }
+        const emailButton = event.target.closest('.btn-email-submit[data-email-submit]');
+        if (emailButton) {
+          submitEmail();
+        }
+      });
 
-    // Init progress
-    updateProgress(1);
+      updateProgress(1);
+    })();
   </script>
 </body>
 </html>
