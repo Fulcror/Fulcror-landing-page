@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fulcror services: Bespoke Software Solutions and Virtual CTO for growth-stage companies in Europe and Francophone Africa." />
+  <meta name="theme-color" content="#f5f0e8" />
+  <title>Fulcror Services | Bespoke Software and Virtual CTO</title>
+  <link rel="canonical" href="https://fulcror.com/services" />
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0e0e0e;
+      --paper: #f5f0e8;
+      --paper-dark: #ede7d5;
+      --accent: #c8622a;
+      --accent-light: #e8896a;
+      --accent-pale: #f5e6dc;
+      --muted: #7a7060;
+      --line: #d4cbb8;
+      --white: #fdfaf5;
+      --dark-hero: #11100e;
+      --dark-panel: #1b1916;
+      --dark-line: #3a342d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.28;
+    }
+
+    .container {
+      width: min(980px, 100% - 3rem);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      padding: 2rem 0 7rem;
+      border-bottom: 1px solid var(--dark-line);
+      background:
+        radial-gradient(65% 45% at 80% -10%, rgba(200, 98, 42, 0.22) 0%, transparent 70%),
+        radial-gradient(55% 40% at 20% 0%, rgba(200, 98, 42, 0.12) 0%, transparent 68%),
+        linear-gradient(180deg, #151310 0%, var(--dark-hero) 60%);
+      color: var(--paper);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.25) 100%);
+      pointer-events: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 6rem;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent-light); }
+
+    .nav-links {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--dark-line);
+      color: rgba(245, 240, 232, 0.76);
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .nav-link:hover {
+      border-color: var(--accent-light);
+      color: var(--paper);
+    }
+
+    .hero-header {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 1.7rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5.8vw, 5.3rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.6rem;
+      color: var(--paper);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent-light);
+    }
+
+    .hero-sub {
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: rgba(245, 240, 232, 0.76);
+      max-width: 560px;
+      margin: 0 auto 2.7rem;
+    }
+
+    .hero-services {
+      margin: 0 auto;
+      max-width: 760px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .hero-service {
+      border: 1px solid var(--dark-line);
+      background: rgba(27, 25, 22, 0.82);
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--paper);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .hero-service:hover {
+      border-color: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    .hero-service-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.45rem;
+    }
+
+    .hero-service h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-service p {
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: rgba(245, 240, 232, 0.72);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      padding: 0.85rem 1.4rem;
+      transition: transform 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .btn-secondary {
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .main {
+      padding: 5rem 0;
+    }
+
+    .section-head {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+    }
+
+    .section-head h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3.1rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 0.7rem;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      line-height: 1.78;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem;
+    }
+
+    .service-panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 2rem;
+    }
+
+    .service-panel h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      margin-bottom: 0.7rem;
+    }
+
+    .service-panel > p {
+      color: var(--muted);
+      line-height: 1.78;
+      margin-bottom: 1.35rem;
+    }
+
+    .offer-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .offer-item {
+      border-left: 1px solid var(--line);
+      padding-left: 0.9rem;
+    }
+
+    .offer-item strong {
+      font-size: 0.88rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .offer-item span {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.72;
+      display: block;
+    }
+
+    .cta-band {
+      margin-top: 4rem;
+      border: 1px solid var(--line);
+      background: #faf6ef;
+      padding: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-band h6 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .cta-band p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      max-width: 560px;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1.8rem 0;
+      background: var(--ink);
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer small {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.5);
+    }
+
+    @media (max-width: 1024px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container { width: min(1120px, 100% - 2rem); }
+
+      .hero {
+        padding-top: 1.4rem;
+        padding-bottom: 4rem;
+      }
+
+      nav {
+        margin-bottom: 3rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links { width: 100%; flex-wrap: wrap; }
+
+      .hero-header { text-align: left; }
+
+      .hero-sub { margin-left: 0; }
+
+      .hero-services {
+        margin: 2.3rem 0 0;
+        max-width: none;
+        grid-template-columns: 1fr;
+      }
+
+      .main { padding: 3.4rem 0; }
+
+      .cta-band { padding: 1.4rem; }
+
+      .cta-band h6 { font-size: 1.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">Fulcr<span>o</span>r</a>
+        <div class="nav-links">
+          <a class="nav-link" href="/#diagnostic">Diagnostic</a>
+          <a class="nav-link" href="https://calendly.com/duccialessandroofficial/diagnostic-discussion" target="_blank" rel="noopener noreferrer">Book call</a>
+        </div>
+      </nav>
+
+      <div class="hero-header">
+        <p class="eyebrow">Services</p>
+        <h1>Two services. One <em>strategic edge</em> for growth.</h1>
+        <p class="hero-sub">
+          Fulcror partners with growth-stage companies in Europe and Francophone Africa through bespoke software delivery and ongoing CTO leadership.
+        </p>
+
+        <div class="hero-services" id="service-map">
+          <a class="hero-service" href="#services-start">
+            <p class="hero-service-label">Service 01</p>
+            <h2>Bespoke Software Solutions</h2>
+            <p>Custom systems for growth bottlenecks in lead generation and operations.</p>
+          </a>
+          <a class="hero-service" href="#services-start">
+            <p class="hero-service-label">Service 02</p>
+            <h2>Virtual CTO</h2>
+            <p>Ongoing strategic and technical leadership on a monthly retainer.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="services-start">
+    <section class="container" id="what-we-do">
+      <header class="section-head">
+        <p class="section-label">What we do</p>
+        <h3>Simple service model, tailored execution.</h3>
+        <p>
+          Start with the service that fits your current stage.
+          You can stay focused on one path or combine both as your needs evolve.
+        </p>
+      </header>
+
+      <div class="service-grid">
+        <article class="service-panel" id="bespoke">
+          <h4>Bespoke Software Solutions</h4>
+          <p>
+            Custom systems built around your workflow and market context.
+            Ideal when generic tools are limiting growth.
+          </p>
+          <div class="offer-list">
+            <div class="offer-item">
+              <strong>Lead generation systems</strong>
+              <span>Targeted workflows and tooling aligned with your sales reality.</span>
+            </div>
+            <div class="offer-item">
+              <strong>Operational automation</strong>
+              <span>Reduce manual work, improve handoffs, and increase execution speed.</span>
+            </div>
+            <div class="offer-item">
+              <strong>Reporting infrastructure</strong>
+              <span>Clear decision systems for leadership and growth teams.</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-panel" id="vcto">
+          <h4>Virtual CTO</h4>
+          <p>
+            Monthly strategic and technical partnership for teams that need continuous guidance and execution.
+          </p>
+          <div class="offer-list">
+            <div class="offer-item">
+              <strong>Technology strategy</strong>
+              <span>Prioritize what matters and align technology with business outcomes.</span>
+            </div>
+            <div class="offer-item">
+              <strong>AI-powered execution</strong>
+              <span>Deploy practical AI solutions that improve speed, quality, and cost efficiency.</span>
+            </div>
+            <div class="offer-item">
+              <strong>Long-term build partner</strong>
+              <span>Deliver new systems over time without rebuilding context at every project.</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <section class="cta-band" aria-label="Call to action">
+        <div>
+          <h6>If you want a clearer starting point</h6>
+          <p>
+            Take the diagnostic and identify where your current growth friction is coming from.
+          </p>
+        </div>
+        <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+          <a class="btn btn-primary" href="/#diagnostic">Start diagnostic</a>
+          <a class="btn btn-secondary" href="https://calendly.com/duccialessandroofficial/diagnostic-discussion" target="_blank" rel="noopener noreferrer">Book call</a>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <a href="/" class="logo" style="color: var(--paper);">Fulcr<span style="color: var(--accent-light);">o</span>r</a>
+      <small>Custom growth infrastructure for EMEA companies - Francophone Africa and Europe</small>
+    </div>
+  </footer>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fulcror",
+      "url": "https://fulcror.com",
+      "areaServed": ["Europe", "Francophone Africa"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Fulcror Services",
+        "itemListElement": [
+          {
+            "@type": "Service",
+            "name": "Bespoke Software Solutions",
+            "description": "Custom software systems for lead generation, operations, and reporting bottlenecks."
+          },
+          {
+            "@type": "Service",
+            "name": "Virtual CTO",
+            "description": "Monthly strategic and technical execution partnership for long-term technology advantage."
+          }
+        ]
+      }
+    }
+  </script>
+</body>
+</html>

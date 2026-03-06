@@ -103,6 +103,30 @@
       border-radius: 2px;
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-services-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.2rem;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-services-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
     .hero-content {
       position: relative;
       z-index: 10;
@@ -723,6 +747,12 @@
         padding-right: 1.5rem;
       }
 
+      .nav-right {
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
       .intro-strip {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -770,7 +800,10 @@
 
     <nav>
       <a href="#" class="logo">Fulcr<span>o</span>r</a>
-      <span class="nav-tag">Growth Diagnostic</span>
+      <div class="nav-right">
+        <a href="/services" class="nav-services-link">Explore services</a>
+        <span class="nav-tag">Growth Diagnostic</span>
+      </div>
     </nav>
 
     <div class="hero-content">
