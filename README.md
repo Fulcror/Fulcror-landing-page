@@ -17,8 +17,9 @@ Deployment guide: `DEPLOY-CLOUDFLARE-CHECKLIST.md`.
 ## Email Delivery (Kit)
 
 - Frontend calls `POST /api/send-results` when user submits email in results card.
-- Backend endpoint is implemented as Cloudflare Pages Function:
-  - `functions/api/send-results.js`
-- Configure required environment variables in Cloudflare Pages:
+- Backend endpoint is implemented in Worker runtime:
+  - `worker.js` (route handler for `/api/send-results`)
+  - `functions/api/send-results.js` remains for Pages compatibility if you switch later.
+- Configure required environment variables in Cloudflare Worker settings (or via Wrangler secrets):
   - `KIT_API_KEY`
   - `KIT_FORM_ID`

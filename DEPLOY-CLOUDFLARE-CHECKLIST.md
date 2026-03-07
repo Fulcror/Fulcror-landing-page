@@ -1,23 +1,25 @@
-# Cloudflare Pages Launch Checklist (Static HTML)
+# Cloudflare Launch Checklist (Worker + Static Assets)
 
 ## 1) Prepare repo
 
 - Keep your entry file as `index.html` (already set in this repo).
 - Replace placeholder booking URL (`https://calendly.com`) with your real link.
 
-## 2) Deploy to Cloudflare Pages (free)
+## 2) Deploy with Wrangler (Worker + static assets)
 
-1. Go to Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages**.
-2. Connect your GitHub repo.
-3. Configure build:
-   - Framework preset: **None**
-   - Build command: _(leave empty)_
-   - Build output directory: `/`
-4. Deploy.
+1. From `my-landing-page`, deploy the Worker:
+  - `npx wrangler deploy`
+2. Ensure your `wrangler.jsonc` includes:
+  - `"main": "worker.js"`
+  - `"assets": { "directory": "." }`
+3. Add required secrets:
+  - `npx wrangler secret put KIT_API_KEY`
+  - `npx wrangler secret put KIT_FORM_ID`
+4. Deploy again after setting secrets.
 
 ## 3) Connect custom domain
 
-1. In your Pages project: **Custom domains** → **Set up a custom domain**.
+1. In your Worker: **Domains & Routes** → **Add custom domain**.
 2. Add both domains:
    - `fulcror.com` (apex, canonical)
    - `www.fulcror.com`
@@ -55,10 +57,12 @@
 ## Optional hardening (later, not required now)
 
 - Add Cloudflare Web Analytics (free).
-- Configure Kit email delivery endpoint (already scaffolded in `functions/api/send-results.js`):
-  - In Cloudflare Pages project settings, add environment variables:
+- Configure Kit email delivery endpoint in Worker runtime:
+  - API route handler is in `worker.js` (`POST /api/send-results`)
+  - `functions/api/send-results.js` is only used for Pages Functions deployments.
+  - Set Worker secrets:
     - `KIT_API_KEY` = your Kit API key
     - `KIT_FORM_ID` = numeric Kit form ID to subscribe contacts into
-  - Redeploy after saving env vars.
+  - Redeploy after saving secrets.
   - Test by completing the diagnostic and using "Send the results to my email first".
 - Add a custom `404.html` page.
