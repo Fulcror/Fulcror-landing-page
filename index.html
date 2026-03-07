@@ -692,6 +692,19 @@
       background: var(--accent);
     }
 
+    .btn-email-submit:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .email-error {
+      display: none;
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--accent);
+      line-height: 1.4;
+    }
+
     /* Success states */
     .success-msg {
       display: none;
@@ -1040,6 +1053,7 @@
           <div class="email-input-wrap">
             <input type="email" class="email-input" id="email-input" placeholder="your@email.com" />
             <button class="btn-email-submit" data-email-submit="true">Send my results →</button>
+            <p class="email-error" id="email-error"></p>
           </div>
           <div class="success-msg" id="email-success">
             <p>✓ <strong>Results sent.</strong> Check your inbox. I'll follow up in 3 days — no pressure, just a conversation if you want one.</p>
@@ -1069,9 +1083,71 @@
       const frictionTitle = document.getElementById('friction-title');
       const frictionDesc = document.getElementById('friction-desc');
       const emailInput = document.getElementById('email-input');
+      const emailError = document.getElementById('email-error');
       const emailSuccess = document.getElementById('email-success');
       const emailSubmitButton = document.querySelector('.btn-email-submit');
       const formSection = document.querySelector('.form-section');
+
+      const frictionProfiles = {
+        lead: {
+          title: 'Lead Generation & Sales Pipeline',
+          desc: 'Your primary friction sits at the top of the funnel. Prospecting quality and conversion consistency are likely constrained by generic workflows or market-misaligned tooling. A signal-based pipeline designed for your target geography can materially improve close-ready opportunities.'
+        },
+        tech: {
+          title: 'Technology Fragmentation & Manual Overhead',
+          desc: 'Your team is paying a hidden tax in manual coordination between disconnected tools. As complexity grows, this overhead compounds and slows decision cycles. A focused integration layer and workflow automation typically unlocks immediate time and quality gains.'
+        },
+        ops: {
+          title: 'Operational Scalability',
+          desc: 'Growth is pressuring internal coordination or delivery quality. Core processes likely depend on key individuals instead of repeatable operating systems. Stabilizing operational cadence now will protect margin and execution reliability as you scale.'
+        },
+        data: {
+          title: 'Data Visibility & Decision Making',
+          desc: 'You are likely making strategic decisions with partial or delayed visibility. Reporting appears fragmented or manual, reducing confidence and speed. A unified reporting layer with the right operating metrics can become an immediate leverage point.'
+        }
+      };
+
+      function scoreAnswers() {
+        const scores = { lead: 0, tech: 0, ops: 0, data: 0 };
+
+        const add = (bucket, points) => {
+          scores[bucket] += points;
+        };
+
+        const q3 = answers['3'];
+        const q4 = answers['4'];
+        const q5 = answers['5'];
+        const q6 = answers['6'];
+        const q8 = answers['8'];
+
+        if (['finding-prospects', 'converting'].includes(q3)) add('lead', 3);
+        if (['ops', 'delivery'].includes(q3)) add('ops', 3);
+        if (q3 === 'reporting') add('data', 3);
+        if (q3 === 'tech') add('tech', 3);
+
+        if (['prospecting-scale', 'sales-scale'].includes(q4)) add('lead', 2);
+        if (['delivery-scale', 'ops-scale'].includes(q4)) add('ops', 2);
+        if (q4 === 'data-scale') add('data', 2);
+        if (q4 === 'tech-scale') add('tech', 2);
+
+        if (['manual-bd', 'agency', 'tools', 'referrals'].includes(q5)) add('lead', 2);
+
+        if (['fragmented', 'manual-sheets', 'nothing-fits'].includes(q6)) add('tech', 3);
+        if (q6 === 'expensive') add('tech', 1);
+
+        if (q8 === 'clarity') add('data', 2);
+        if (q8 === 'grow-no-headcount') add('ops', 1);
+        if (q8 === 'less-key-person') add('ops', 2);
+        if (q8 === 'stop-losing-deals') add('lead', 2);
+        if (q8 === 'all-above') {
+          add('lead', 1);
+          add('ops', 1);
+          add('tech', 1);
+          add('data', 1);
+        }
+
+        return scores;
+      }
 
       function setActiveQuestion(questionNumber) {
         const activeBlock = document.querySelector('.question-block.active');
@@ -1118,67 +1194,65 @@
       }
 
       function deriveFriction() {
-        const q3 = answers['3'];
-        const q4 = answers['4'];
-        const q5 = answers['5'];
-        const q6 = answers['6'];
+        const scores = scoreAnswers();
+        const ranking = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+        const top = ranking[0];
 
-        if (
-          ['finding-prospects', 'converting', 'prospecting-scale', 'sales-scale'].includes(q3) ||
-          ['finding-prospects', 'converting', 'prospecting-scale', 'sales-scale'].includes(q4) ||
-          ['manual-bd', 'agency', 'tools', 'referrals'].includes(q5)
-        ) {
+        if (!top || top[1] === 0) {
           return {
-            title: 'Lead Generation & Sales Pipeline',
-            desc: 'Your primary friction is at the top of the funnel. You\'re likely relying on manual processes, referrals, or tools that weren\'t designed for your specific markets — leading to inconsistent pipeline quality and slow conversion cycles. This is solvable with a custom signal-based prospecting system built for your geography.'
+            title: 'Multi-System Growth Friction',
+            desc: 'Your friction spans multiple areas — which is common at your stage. The priority is identifying which single bottleneck, if fixed, would unlock the most downstream momentum. A diagnostic call is the fastest way to determine that leverage point for your situation.'
           };
         }
 
-        if (
-          ['tech', 'tech-scale'].includes(q3) ||
-          ['tech', 'tech-scale'].includes(q4) ||
-          ['fragmented', 'manual-sheets', 'nothing-fits'].includes(q6)
-        ) {
-          return {
-            title: 'Technology Fragmentation & Manual Overhead',
-            desc: 'Your team is spending significant time managing tools that don\'t work together — manual data entry, patching between systems, and decisions made on incomplete information. This overhead compounds as you grow. A custom integration layer built for your specific workflow can eliminate this friction entirely.'
-          };
-        }
-
-        if (
-          ['ops', 'ops-scale', 'delivery', 'delivery-scale'].includes(q3) ||
-          ['ops', 'ops-scale', 'delivery', 'delivery-scale'].includes(q4)
-        ) {
-          return {
-            title: 'Operational Scalability',
-            desc: 'Your delivery or coordination systems were built for a smaller company and are straining under current growth pressure. Key processes depend on specific individuals rather than documented systems. Scaling further without addressing this creates compounding risk to both quality and team capacity.'
-          };
-        }
-
-        if (['reporting', 'data-scale'].includes(q3) || ['reporting', 'data-scale'].includes(q4)) {
-          return {
-            title: 'Data Visibility & Decision Making',
-            desc: 'You\'re growing, but you\'re making decisions without a clear picture of what\'s actually working. Reporting is manual, slow, or siloed across tools. A custom reporting layer that consolidates your key signals into one view typically changes how fast and how confidently leadership can act.'
-          };
-        }
-
-        return {
-          title: 'Multi-System Growth Friction',
-          desc: 'Your friction spans multiple areas — which is common at your stage. The priority is identifying which single bottleneck, if fixed, would unlock the most downstream momentum. A diagnostic call is the fastest way to determine that specific leverage point for your situation.'
-        };
+        return frictionProfiles[top[0]];
       }
 
-      function submitEmail() {
+      async function submitEmail() {
         const email = emailInput.value.trim();
-        if (!email || !email.includes('@')) {
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!isValidEmail) {
           emailInput.style.borderColor = 'var(--accent)';
+          emailError.textContent = 'Please enter a valid email address.';
+          emailError.style.display = 'block';
           return;
         }
 
-        console.log('Email submitted:', email, 'Answers:', answers);
-        emailInput.style.display = 'none';
-        emailSubmitButton.style.display = 'none';
-        emailSuccess.style.display = 'block';
+        emailInput.style.borderColor = 'var(--line)';
+        emailError.style.display = 'none';
+        emailSubmitButton.disabled = true;
+        const originalLabel = emailSubmitButton.textContent;
+        emailSubmitButton.textContent = 'Sending...';
+
+        try {
+          const payload = {
+            email,
+            answers,
+            friction: deriveFriction(),
+          };
+
+          const response = await fetch('/api/send-results', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error('Submission failed');
+          }
+
+          emailInput.style.display = 'none';
+          emailSubmitButton.style.display = 'none';
+          emailSuccess.style.display = 'block';
+        } catch (error) {
+          emailError.textContent = 'Could not send results right now. Please try again in a moment.';
+          emailError.style.display = 'block';
+          emailSubmitButton.disabled = false;
+          emailSubmitButton.textContent = originalLabel;
+        }
       }
 
       formSection.addEventListener('click', (event) => {

@@ -55,5 +55,10 @@
 ## Optional hardening (later, not required now)
 
 - Add Cloudflare Web Analytics (free).
-- Add a real backend endpoint for email submissions.
+- Configure Kit email delivery endpoint (already scaffolded in `functions/api/send-results.js`):
+  - In Cloudflare Pages project settings, add environment variables:
+    - `KIT_API_KEY` = your Kit API key
+    - `KIT_FORM_ID` = numeric Kit form ID to subscribe contacts into
+  - Redeploy after saving env vars.
+  - Test by completing the diagnostic and using "Send the results to my email first".
 - Add a custom `404.html` page.
