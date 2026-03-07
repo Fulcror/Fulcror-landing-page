@@ -705,6 +705,16 @@
       line-height: 1.4;
     }
 
+    .honeypot-wrap {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* Success states */
     .success-msg {
       display: none;
@@ -1051,6 +1061,17 @@
           <h3>Send the results to my email first</h3>
           <p>Receive a written summary of your friction diagnosis. I'll follow up once in 3 days if you'd like to discuss.</p>
           <div class="email-input-wrap">
+            <div class="honeypot-wrap" aria-hidden="true">
+              <label for="website-field">Website</label>
+              <input
+                id="website-field"
+                type="text"
+                name="website"
+                autocomplete="off"
+                tabindex="-1"
+                inputmode="text"
+              />
+            </div>
             <input type="email" class="email-input" id="email-input" placeholder="your@email.com" />
             <button class="btn-email-submit" data-email-submit="true">Send my results →</button>
             <p class="email-error" id="email-error"></p>
@@ -1083,6 +1104,7 @@
       const frictionTitle = document.getElementById('friction-title');
       const frictionDesc = document.getElementById('friction-desc');
       const emailInput = document.getElementById('email-input');
+      const honeypotInput = document.getElementById('website-field');
       const emailError = document.getElementById('email-error');
       const emailSuccess = document.getElementById('email-success');
       const emailSubmitButton = document.querySelector('.btn-email-submit');
@@ -1230,6 +1252,7 @@
             email,
             answers,
             friction: deriveFriction(),
+            website: honeypotInput ? honeypotInput.value.trim() : '',
           };
 
           const response = await fetch('/api/send-results', {

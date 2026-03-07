@@ -2,8 +2,14 @@ export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
     const email = String(body?.email || "").trim();
+    const honeypot = String(body?.website || "").trim();
     const friction = body?.friction || {};
     const answers = body?.answers || {};
+
+    // Silent success for bot submissions so automated agents get no signal.
+    if (honeypot) {
+      return json({ ok: true }, 202);
+    }
 
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!isValidEmail) {
