@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Fulcror Growth Friction Diagnostic — answer 8 questions in 4 minutes to identify where your company is facing operational friction and what to do next." />
   <meta name="theme-color" content="#f5f0e8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_apple_touch.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon_512.png" />
   <meta http-equiv="x-dns-prefetch-control" content="on" />
   <title>Fulcror — Growth Friction Diagnostic</title>
   <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -1268,15 +1271,6 @@
           if (!response.ok || !result?.ok) {
             const detail = String(result?.detail || result?.error || 'Submission failed').slice(0, 180);
             throw new Error(detail);
-          }
-
-          const successText = emailSuccess.querySelector('p');
-          if (successText) {
-            if (result?.needsConfirmation) {
-              successText.textContent = 'Results submitted. Please check your inbox and confirm your subscription to appear as active in Kit.';
-            } else {
-              successText.textContent = 'Results sent. Your subscription is active in Kit.';
-            }
           }
 
           emailInput.style.display = 'none';

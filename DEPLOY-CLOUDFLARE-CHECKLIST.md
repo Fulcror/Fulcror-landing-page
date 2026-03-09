@@ -8,13 +8,21 @@
 ## 2) Deploy with Wrangler (Worker + static assets)
 
 1. From `my-landing-page`, deploy the Worker:
-  - `npx wrangler deploy`
+
+- `npx wrangler deploy`
+
 2. Ensure your `wrangler.jsonc` includes:
-  - `"main": "worker.js"`
-  - `"assets": { "directory": "." }`
+
+- `"main": "worker.js"`
+- `"assets": { "directory": "./static" }`
+- `"workers_dev": false`
+- `"preview_urls": false`
+
 3. Add required secrets:
-  - `npx wrangler secret put KIT_API_KEY`
-  - `npx wrangler secret put KIT_FORM_ID`
+
+- `npx wrangler secret put KIT_API_KEY`
+- `npx wrangler secret put KIT_FORM_ID`
+
 4. Deploy again after setting secrets.
 
 ## 3) Connect custom domain

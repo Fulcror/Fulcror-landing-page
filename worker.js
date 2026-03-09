@@ -72,15 +72,70 @@ async function handleSendResults(request, env) {
       },
     );
 
-    if (!kitRes.ok) {
-      const detail = await kitRes.text();
-      return json({ ok: false, error: "Kit API request failed", detail }, 502);
+    const kitRaw = await kitRes.text();
+    let kitData = null;
+    try {
+      kitData = kitRaw ? JSON.parse(kitRaw) : null;
+    } catch {
+      kitData = null;
     }
 
-    return json({ ok: true }, 200);
+    if (!kitRes.ok) {
+      return json(
+        {
+          ok: false,
+          error: "Kit API request failed",
+          upstreamStatus: kitRes.status,
+          detail: getKitDetail(kitData, kitRaw),
+        },
+        502,
+      );
+    }
+
+    const subscription =
+      kitData && typeof kitData === "object" ? kitData.subscription : null;
+    if (!subscription || typeof subscription !== "object") {
+      return json(
+        {
+          ok: false,
+          error: "Kit response was unexpected",
+          detail: getKitDetail(kitData, kitRaw),
+        },
+        502,
+      );
+    }
+
+    const subscriptionState = String(
+      subscription.state || subscription.status || "",
+    ).toLowerCase();
+    const needsConfirmation = ["inactive", "unconfirmed", "pending"].some(
+      (token) => subscriptionState.includes(token),
+    );
+
+    return json(
+      {
+        ok: true,
+        subscriptionId: subscription.id || null,
+        subscriptionState: subscriptionState || null,
+        needsConfirmation,
+      },
+      200,
+    );
   } catch {
     return json({ ok: false, error: "Unexpected server error" }, 500);
   }
+}
+
+function getKitDetail(kitData, kitRaw) {
+  if (kitData && typeof kitData === "object") {
+    if (typeof kitData.error === "string" && kitData.error)
+      return kitData.error;
+    if (typeof kitData.message === "string" && kitData.message)
+      return kitData.message;
+  }
+
+  const normalized = String(kitRaw || "").trim();
+  return normalized.slice(0, 300) || "No upstream detail";
 }
 
 function json(data, status = 200) {
