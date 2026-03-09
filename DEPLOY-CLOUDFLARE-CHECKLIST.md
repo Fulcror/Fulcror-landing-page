@@ -71,6 +71,9 @@
   - Set Worker secrets:
     - `KIT_API_KEY` = your Kit API key
     - `KIT_FORM_ID` = numeric Kit form ID to subscribe contacts into
+    - `RESEND_API_KEY` = your Resend API key
+    - `RESEND_FROM_EMAIL` = verified sender address in Resend
+    - `RESULTS_TO_EMAIL` = optional (defaults to `alessandro@fulcror.com`)
   - Redeploy after saving secrets.
   - Test by completing the diagnostic and using "Send the results to my email first".
 - Add a custom `404.html` page.

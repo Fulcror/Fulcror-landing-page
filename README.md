@@ -37,9 +37,17 @@ Deployment guide: `DEPLOY-CLOUDFLARE-CHECKLIST.md`.
 - Configure required environment variables in Cloudflare Worker settings (or via Wrangler secrets):
   - `KIT_API_KEY`
   - `KIT_FORM_ID`
+  - `RESEND_API_KEY` (for owner notification email)
+  - `RESEND_FROM_EMAIL` (verified sender, e.g. `Fulcror <noreply@fulcror.com>`)
+  - `RESULTS_TO_EMAIL` (optional override, defaults to `alessandro@fulcror.com`)
 
 ## Deployment Safety Notes
 
 - `wrangler.jsonc` publishes only `./static` assets (prevents accidental upload of repo internals).
 - `workers_dev` and `preview_urls` are explicitly disabled to keep traffic on custom domains only.
 - When updating page content, edit files under `static/`.
+
+## Resend Example Snippet
+
+- Example file: `scripts/resend-example.mjs`
+- Replace `re_xxxxxxxxx` with your real Resend API key before using it.
